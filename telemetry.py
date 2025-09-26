@@ -20,12 +20,12 @@ async def run():
         # # Телеметрія: висота
         # asyncio.create_task(print_altitude(drone))
         # # Телеметрія: батарея
-        # asyncio.create_task(print_battery(drone))
+        asyncio.create_task(print_battery(drone))
         # # Телеметрія: стан (ARM, режим, здоров’я сенсорів)
         # asyncio.create_task(print_status(drone))
 
         # Телеметрія: стан (ARM, режим, здоров’я сенсорів)
-        asyncio.create_task(print_telemetry(drone))
+        # asyncio.create_task(print_telemetry(drone))
 
         # тримати скрипт активним
         while True:
