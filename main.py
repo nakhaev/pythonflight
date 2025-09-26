@@ -10,27 +10,28 @@ async def main():
     drone = System()
     try:
         await drone.connect(system_address=f"serial://{PORT}:57600")
+            # Чекаємо підключення
+        async for state in drone.core.connection_state():
+            if state.is_connected:
+                print("✅ Connected")
+                break
+        
+        #Переконайся, що GPS/армінг дозволені (для стенду можна вимкнути arm checks в параметрах, але краще мати RC failsafe)
+        print("Arming…")
+        await drone.action.arm()
+
+        print("Takeoff to 2m…")
+        await drone.action.takeoff()
+        await asyncio.sleep(5)
+
+        print("Landing…")
+        await drone.action.land()
+        await asyncio.sleep(5)
+        
     except Exception as e:
-        print(f"Failed to connect at 57600 baud: {e}")
+        print(f"Failed: {e}")
         print("Trying 115200 baud...")
 
-    # Чекаємо підключення
-    async for state in drone.core.connection_state():
-        if state.is_connected:
-            print("✅ Connected")
-            break
-
-    # Переконайся, що GPS/армінг дозволені (для стенду можна вимкнути arm checks в параметрах, але краще мати RC failsafe)
-    # print("Arming…")
-    # await drone.action.arm()
-
-    # print("Takeoff to 2m…")
-    # await drone.action.takeoff()
-    # await asyncio.sleep(5)
-
-    # print("Landing…")
-    # await drone.action.land()
-    # await asyncio.sleep(5)
 
     print("Done.")
 
