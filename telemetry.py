@@ -7,6 +7,7 @@ PORT = "/dev/ttyACM0"  # заміни, якщо інший (наприклад /
 async def run():
     drone = System()
     try:
+        attempt = 0
         await drone.connect(system_address=f"serial://{PORT}:115200")
 
         print("Очікуємо підключення...")
@@ -15,21 +16,20 @@ async def run():
                 print("✅ Підключено до автопілота")
                 break
 
-        # # Телеметрія: позиція
-        # asyncio.create_task(print_position(drone))
-        # # Телеметрія: висота
-        # asyncio.create_task(print_altitude(drone))
-        # # Телеметрія: батарея
+        # Телеметрія: позиція
+        asyncio.create_task(print_position(drone))
+        # Телеметрія: висота
+        asyncio.create_task(print_altitude(drone))
+        # Телеметрія: батарея
         asyncio.create_task(print_battery(drone))
-        # # Телеметрія: стан (ARM, режим, здоров’я сенсорів)
-        # asyncio.create_task(print_status(drone))
-
         # Телеметрія: стан (ARM, режим, здоров’я сенсорів)
-        # asyncio.create_task(print_telemetry(drone))
+        asyncio.create_task(print_status(drone))
+
 
         # тримати скрипт активним
-        while True:
+        while attempt < 6:
             await asyncio.sleep(1)
+            attempt += 1
     except Exception as e:
         print(f"Помилка: {e}")
 
@@ -48,10 +48,6 @@ async def print_battery(drone):
 async def print_status(drone):
     async for health in drone.telemetry.health():
         print(f"⚙️ Health: {health}")
-
-async def print_telemetry(drone):
-    async for data in drone.telemetry:
-        print(f"{data} \n")
 
 if __name__ == "__main__":
     asyncio.run(run())
