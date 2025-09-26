@@ -8,7 +8,11 @@ PORT = "/dev/ttyACM0"  # заміни, якщо інший
 async def main():
     # Підключення до серійного порту через mavsdk_server (вбудовано в пакет)
     drone = System()
-    await drone.connect(system_address=f"serial://{PORT}:115200")
+    try:
+        await drone.connect(system_address=f"serial://{PORT}:57600")
+    except Exception as e:
+        print(f"Failed to connect at 57600 baud: {e}")
+        print("Trying 115200 baud...")
 
     # Чекаємо підключення
     async for state in drone.core.connection_state():
