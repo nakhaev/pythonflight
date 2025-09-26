@@ -17,12 +17,13 @@ async def main():
                 break
         
         #Переконайся, що GPS/армінг дозволені (для стенду можна вимкнути arm checks в параметрах, але краще мати RC failsafe)
-        print("Arming…")
+        print("Arming...")
         await drone.action.arm()
-        await asyncio.sleep(2)
+        print("✅ Armed!")
 
-        print("Takeoff to 2m…")
-        await drone.action.takeoff()
+        print("Takeoff to 2m...")
+        await drone.action.takeoff(2)
+        print("✅ Takeoff to 2m...")
         await asyncio.sleep(5)
 
         # print("Landing…")
@@ -34,7 +35,6 @@ async def main():
         
     except Exception as e:
         print(f"Failed: {e}")
-        print("Trying 115200 baud...")
 
 
     print("Done.")
