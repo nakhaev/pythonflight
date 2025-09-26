@@ -17,16 +17,16 @@ async def main():
             break
 
     # Переконайся, що GPS/армінг дозволені (для стенду можна вимкнути arm checks в параметрах, але краще мати RC failsafe)
-    print("Arming…")
-    await drone.action.arm()
+    # print("Arming…")
+    # await drone.action.arm()
 
-    print("Takeoff to 2m…")
-    await drone.action.takeoff()
-    await asyncio.sleep(5)
+    # print("Takeoff to 2m…")
+    # await drone.action.takeoff()
+    # await asyncio.sleep(5)
 
-    print("Landing…")
-    await drone.action.land()
-    await asyncio.sleep(5)
+    # print("Landing…")
+    # await drone.action.land()
+    # await asyncio.sleep(5)
 
     print("Done.")
 
