@@ -24,7 +24,8 @@ async def run():
         asyncio.create_task(print_battery(drone))
         # Телеметрія: стан (ARM, режим, здоров’я сенсорів)
         asyncio.create_task(print_status(drone))
-
+        # Телеметрія: режим польоту
+        asyncio.create_task(print_flight_mode(drone))
 
         # тримати скрипт активним
         while attempt < 6:
@@ -48,6 +49,10 @@ async def print_battery(drone):
 async def print_status(drone):
     async for health in drone.telemetry.health():
         print(f"⚙️ Health: {health}")
+
+async def print_flight_mode(drone):
+    async for flight_mode in drone.telemetry.flight_mode():
+        print(f"✈️ Flight mode: {flight_mode}")
 
 if __name__ == "__main__":
     asyncio.run(run())
