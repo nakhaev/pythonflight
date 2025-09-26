@@ -38,8 +38,8 @@ async def print_position(drone):
         print(f"📍 Lat={pos.latitude_deg:.6f}, Lon={pos.longitude_deg:.6f}")
 
 async def print_altitude(drone):
-    async for alt in drone.telemetry.relative_altitude_m():
-        print(f"📏 Alt={alt:.1f} м")
+    async for pos in drone.telemetry.position():
+        print(f"Alt rel: {pos.relative_altitude_m:.1f} м")
 
 async def print_battery(drone):
     async for batt in drone.telemetry.battery():
