@@ -50,7 +50,7 @@ async def print_status(drone):
         print(f"⚙️ Health: {health}")
 
 async def print_telemetry(drone):
-    async for data in drone.telemetry.health():
+    async for data in drone.telemetry:
         print(f"{data} \n")
 
 if __name__ == "__main__":
